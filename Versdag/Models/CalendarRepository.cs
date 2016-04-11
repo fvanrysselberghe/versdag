@@ -12,63 +12,37 @@ namespace Versdag.Models
     {
         public Calendar GetCalendar()
         {
-            Vegetable aardappel = new Vegetable("aardappel");
-            Vegetable bloemkool = new Vegetable("bloemkool");
-            Vegetable boerenkool = new Vegetable("boerenkool");
-
-
-            Calendar manualCalendar = new Calendar();
-
-            //January
-            manualCalendar.Vegetables(1).Add(aardappel);
-
-            //February
-            manualCalendar.Vegetables(2).Add(aardappel);
-            manualCalendar.Vegetables(2).Add(boerenkool);
-
-            //March
-            manualCalendar.Vegetables(3).Add(aardappel);
-            manualCalendar.Vegetables(3).Add(bloemkool);
-
-
-            String jsonContent = null;
-            try
-            {
-                using (StreamReader reader = new StreamReader(@"e:\development\versdag\vegetableCalendarVelt.json"))
-                {
-                    jsonContent = reader.ReadToEnd();
-                }
-            }
-            catch (Exception)
-            {
-                return manualCalendar;
-            }
-
-
-            try {
-                JObject jsonObject = JObject.Parse(jsonContent);
-
                 Calendar veltCalendar = new Calendar();
 
-                //iterate months
-                JArray rawVegetableCalendar = (JArray)jsonObject["vegetables"];
-                for (int index = 0; index < 12; index++)
+                using (StreamReader RawReader = new StreamReader(@"e:\development\versdag\vegetableCalendarVelt.json"))
+                using (JsonReader JsonReader = new JsonTextReader(RawReader))
                 {
-                    JArray Month = (JArray)rawVegetableCalendar[index];
-
-                    List<Vegetable> VegetablesOfMonth = veltCalendar.Vegetables(index + 1);
-                    foreach (String VegetableName in Month)
+                try
                     {
-                        VegetablesOfMonth.Add(new Vegetable(VegetableName));
+                        JObject jsonObject = (JObject)JObject.ReadFrom(JsonReader);
+
+
+                        //iterate months
+                        JArray rawVegetableCalendar = (JArray)jsonObject["vegetables"];
+                        for (int index = 0; index < 12; index++)
+                        {
+                            JArray Month = (JArray)rawVegetableCalendar[index];
+
+                            List<Vegetable> VegetablesOfMonth = veltCalendar.Vegetables(index + 1);
+                            foreach (String VegetableName in Month)
+                            {
+                                VegetablesOfMonth.Add(new Vegetable(VegetableName));
+                            }
+                        }
                     }
-                }
+                    catch (JsonException)
+                    {
+                        return new Calendar();
+                    }
 
                 return veltCalendar;
-            }
-            catch (JsonException)
-            {
-                return manualCalendar;
-            }
+                }
+            
         }
     }
 }
