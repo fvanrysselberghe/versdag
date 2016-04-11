@@ -9,5 +9,10 @@ namespace Versdag.Models
     {
         public int Id { get; set; }
         public List<Vegetable> VegetablesOfTheMonth { get; set; }
+
+        public Month()
+        {
+            VegetablesOfTheMonth = new List<Vegetable>();
+        }
     }
 }
