@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Versdag")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("OM Partners n.v.")]
+[assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("Versdag")]
-[assembly: AssemblyCopyright("Copyright © OM Partners n.v. 2016")]
+[assembly: AssemblyCopyright("Copyright © Filip Van Rysselberghe 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
